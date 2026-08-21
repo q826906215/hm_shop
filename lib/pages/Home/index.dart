@@ -21,6 +21,8 @@ class _HomeViewState extends State<HomeView> {
 
   // 注释: 分类列表
   List<CategoryItem> _categoryList = [];
+  // 注释: 特惠推荐列表
+  RecommendResult _recommendResult = RecommendResult(id: "", title: "");
 
   // 注释: 获取滚动容器的内容
   List<Widget> _getScrollChildern() {
@@ -35,7 +37,9 @@ class _HomeViewState extends State<HomeView> {
       ), // 分类组件
       SliverToBoxAdapter(child: SizedBox(height: 10)),
 
-      SliverToBoxAdapter(child: HmSuggestion()),
+      SliverToBoxAdapter(
+        child: HmSuggestion(recommendResult: _recommendResult),
+      ),
       // SliverGrid SliverList只能纵向排列
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       // ListView
@@ -62,6 +66,7 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
     _getBannderList();
     _getCategoryList();
+    _getHotPreferenceList();
   }
 
   // 注释: 获取轮播图列表
@@ -73,6 +78,12 @@ class _HomeViewState extends State<HomeView> {
   // 注释: 获取分类列表
   void _getCategoryList() async {
     _categoryList = await getCategoryListAPI();
+    setState(() {});
+  }
+
+  // 注释: 获取特惠推荐列表
+  void _getHotPreferenceList() async {
+    _recommendResult = await getHotPreferenceListAPI();
     setState(() {});
   }
 

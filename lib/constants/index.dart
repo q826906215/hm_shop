@@ -11,4 +11,5 @@ class GlobalConstants {
 class HttpConstants {
   static const String BANNER_LIST = "/home/banner"; // 轮播图列表
   static const String CATEGORY_HEAD_LIST = "/home/category/head"; // 分类列表
+  static const String HOT_PREFERENCE_LIST = "/hot/preference"; // 特惠推荐列表
 }

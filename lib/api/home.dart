@@ -22,3 +22,15 @@ Future<List<CategoryItem>> getCategoryListAPI() async {
     return list.toList();
   });
 }
+
+// 获取特惠推荐列表
+Future<RecommendResult> getHotPreferenceListAPI() async {
+  // 返回请求
+  return await dioRequest.get(HttpConstants.HOT_PREFERENCE_LIST).then((
+    onValue,
+  ) {
+    debugPrint("数据----------$onValue");
+    // 解析数据
+    return RecommendResult.fromJSON(onValue);
+  });
+}
