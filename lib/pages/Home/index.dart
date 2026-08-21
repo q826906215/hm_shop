@@ -18,7 +18,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   // 注释: 轮播图数据
   List<BannerItem> _bannerList = [];
-
   // 注释: 分类列表
   List<CategoryItem> _categoryList = [];
   // 注释: 特惠推荐列表
@@ -30,6 +29,12 @@ class _HomeViewState extends State<HomeView> {
 
   // 注释: 新鲜好物列表
   List<FreshGoodsItem> _freshGoodsItem = [];
+  // 注释: 10条数据页码
+  int _page = 1;
+  // 注释: 是否正在加载更多数据
+  bool _isLoading = false;
+  // 注释: 是否还有更多数据
+  bool _hasMore = true;
 
   @override
   void initState() {
@@ -40,6 +45,22 @@ class _HomeViewState extends State<HomeView> {
     _getHotInVogueList();
     _getHotOneStopList();
     _getRecommendList();
+
+    _registerEvent();
+  }
+
+  // 注释: 注册监听滚动到底部的事件
+  void _registerEvent() {
+    _scrollController.addListener(() {
+      // 滚动时触发
+      debugPrint("滚动事件触发");
+      // 滚动到底部时触发
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent - 50) {
+        // 加载更多数据
+        _getRecommendList();
+      }
+    });
   }
 
   // 注释: 获取轮播图列表
@@ -74,8 +95,25 @@ class _HomeViewState extends State<HomeView> {
 
   // 注释: 获取推荐列表
   void _getRecommendList() async {
-    _freshGoodsItem = await getRecommendListAPI(queryParameters: {"limit": 10});
+    // 加载更多数据时，判断是否正在加载更多数据或是否还有更多数据 就放弃请求
+    if (_isLoading || !_hasMore) {
+      return;
+    }
+    // 加载更多数据时，设置正在加载更多数据为true
+    _isLoading = true;
+    int requestLimit = _page * 8;
+    _freshGoodsItem = await getRecommendListAPI(
+      queryParameters: {"limit": requestLimit},
+    );
+    // 加载更多数据时，设置正在加载更多数据为false
+    _isLoading = false;
     setState(() {});
+    // 我要10条 你给10条 说明我要的你都给了 接着认为还有下一页
+    if (_freshGoodsItem.length < requestLimit) {
+      _hasMore = false;
+      return;
+    }
+    _page++;
   }
 
   // 注释: 获取滚动容器的内容
@@ -119,8 +157,14 @@ class _HomeViewState extends State<HomeView> {
     ];
   }
 
+  // 注释: 滚动控制器
+  final ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(slivers: _getScrollChildern()); // sliver家族内容
+    return CustomScrollView(
+      controller: _scrollController, // 绑定滚动控制器
+      slivers: _getScrollChildern(),
+    ); // sliver家族内容
   }
 }
