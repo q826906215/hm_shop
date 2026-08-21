@@ -4,7 +4,7 @@ class CartView extends StatefulWidget {
   CartView({Key? key}) : super(key: key);
 
   @override
-  _CartViewState createState() => _CartViewState();
+  State<StatefulWidget> createState() => _CartViewState();
 }
 
 class _CartViewState extends State<CartView> {

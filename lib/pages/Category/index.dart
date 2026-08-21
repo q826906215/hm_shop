@@ -4,7 +4,7 @@ class CategoryView extends StatefulWidget {
   CategoryView({Key? key}) : super(key: key);
 
   @override
-  _CategoryViewState createState() => _CategoryViewState();
+  State<StatefulWidget> createState() => _CategoryViewState();
 }
 
 class _CategoryViewState extends State<CategoryView> {
