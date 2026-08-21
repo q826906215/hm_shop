@@ -84,35 +84,37 @@ class _HmhotState extends State<Hmhot> {
   /// 完成渲染
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
-      child: Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: widget.type == "hot"
-              ? Color.fromARGB(255, 235, 215, 215)
-              : Color.fromARGB(255, 247, 247, 212),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          children: [
-            //顶部内容
-            _buildHeader(),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: _getChildrenList(),
+    return _items.isNotEmpty
+        ? Padding(
+            padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
+            child: Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: widget.type == "hot"
+                    ? Color.fromARGB(255, 235, 215, 215)
+                    : Color.fromARGB(255, 247, 247, 212),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                children: [
+                  //顶部内容
+                  _buildHeader(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: _getChildrenList(),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
-    );
+          )
+        : SizedBox.shrink();
   }
 }

@@ -6,6 +6,7 @@ import 'package:hm_shop/component/Home/HmHot.dart';
 import 'package:hm_shop/component/Home/HmMoreList.dart';
 import 'package:hm_shop/component/Home/HmSlider.dart';
 import 'package:hm_shop/component/Home/HmSuggestion.dart';
+import 'package:hm_shop/utils/ToastUtils.dart';
 import 'package:hm_shop/viewmodels/home.dart';
 
 class HomeView extends StatefulWidget {
@@ -39,14 +40,13 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    _getBannderList();
-    _getCategoryList();
-    _getHotPreferenceList();
-    _getHotInVogueList();
-    _getHotOneStopList();
-    _getRecommendList();
 
     _registerEvent();
+    Future.microtask(() {
+      _paddingTop = 100;
+      // 刷新时触发
+      _key.currentState?.show();
+    });
   }
 
   // 注释: 注册监听滚动到底部的事件
@@ -64,37 +64,37 @@ class _HomeViewState extends State<HomeView> {
   }
 
   // 注释: 获取轮播图列表
-  void _getBannderList() async {
+  Future<void> _getBannderList() async {
     _bannerList = await getBannerListAPI();
     setState(() {});
   }
 
   // 注释: 获取分类列表
-  void _getCategoryList() async {
+  Future<void> _getCategoryList() async {
     _categoryList = await getCategoryListAPI();
     setState(() {});
   }
 
   // 注释: 获取特惠推荐列表
-  void _getHotPreferenceList() async {
+  Future<void> _getHotPreferenceList() async {
     _recommendResult = await getHotPreferenceListAPI();
     setState(() {});
   }
 
   // 注释: 获取热门推荐列表
-  void _getHotInVogueList() async {
+  Future<void> _getHotInVogueList() async {
     _hotInVogueResult = await getHotInVogueListAPI();
     setState(() {});
   }
 
   // 注释: 获取一站式推荐列表
-  void _getHotOneStopList() async {
+  Future<void> _getHotOneStopList() async {
     _hotOneStopResult = await getHotOneStopListAPI();
     setState(() {});
   }
 
   // 注释: 获取推荐列表
-  void _getRecommendList() async {
+  Future<void> _getRecommendList() async {
     // 加载更多数据时，判断是否正在加载更多数据或是否还有更多数据 就放弃请求
     if (_isLoading || !_hasMore) {
       return;
@@ -114,6 +114,48 @@ class _HomeViewState extends State<HomeView> {
       return;
     }
     _page++;
+  }
+
+  Future<void> _onRefresh() async {
+    _page = 1;
+    _isLoading = false;
+    _hasMore = true;
+    await _getBannderList();
+    await _getCategoryList();
+    await _getHotPreferenceList();
+    await _getHotInVogueList();
+    await _getHotOneStopList();
+    await _getRecommendList();
+    //数据获取成功 刷新成功了
+    debugPrint("刷新成功");
+    ToastUtils.showTost(context, "老高啊怎么越来越简单啦");
+    _paddingTop = 0;
+  }
+
+  // 注释: 滚动控制器
+  final ScrollController _scrollController = ScrollController();
+
+  //GlobalKey是一个方法可以创建一个key绑定到Widget部件上 可以操作Widget部件
+  final GlobalKey<RefreshIndicatorState> _key =
+      GlobalKey<RefreshIndicatorState>();
+
+  double _paddingTop = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      key: _key,
+      child: AnimatedContainer(
+        // sliver家族内容
+        padding: EdgeInsetsGeometry.only(top: _paddingTop),
+        duration: Duration(milliseconds: 300),
+        child: CustomScrollView(
+          controller: _scrollController, // 绑定滚动控制器
+          slivers: _getScrollChildern(),
+        ),
+      ),
+    );
   }
 
   // 注释: 获取滚动容器的内容
@@ -155,16 +197,5 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       HmMoreList(freshGoodsItemList: _freshGoodsItem),
     ];
-  }
-
-  // 注释: 滚动控制器
-  final ScrollController _scrollController = ScrollController();
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: _scrollController, // 绑定滚动控制器
-      slivers: _getScrollChildern(),
-    ); // sliver家族内容
   }
 }

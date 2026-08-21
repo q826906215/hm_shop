@@ -98,39 +98,41 @@ class _HmSuggestionState extends State<HmSuggestion> {
   // 完成渲染
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
-      child: Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: Colors.blue,
-          borderRadius: BorderRadius.circular(12),
-          image: DecorationImage(
-            image: AssetImage("lib/assets/discount/gold_vip_back.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
-          children: [
-            //顶部内容
-            _buildHeader(),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildLeft(),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: _getChildrenList(),
-                  ),
+    return _getDisplayItems().isNotEmpty
+        ? Padding(
+            padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
+            child: Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(12),
+                image: DecorationImage(
+                  image: AssetImage("lib/assets/discount/gold_vip_back.png"),
+                  fit: BoxFit.cover,
                 ),
-              ],
+              ),
+              child: Column(
+                children: [
+                  //顶部内容
+                  _buildHeader(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      _buildLeft(),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: _getChildrenList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
-    );
+          )
+        : SizedBox.shrink();
   }
 }
