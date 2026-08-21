@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:hm_shop/api/home.dart';
 import 'package:hm_shop/component/Home/HmCategory.dart';
 import 'package:hm_shop/component/Home/HmHot.dart';
 import 'package:hm_shop/component/Home/HmMoreList.dart';
@@ -16,26 +17,13 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   // 注释: 轮播图数据
-  final List<BannerItem> _bannerItem = [
-    BannerItem(
-      id: "1",
-      imgUrl: "https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meituan/1.jpg",
-    ),
-    BannerItem(
-      id: "2",
-      imgUrl: "https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meituan/2.png",
-    ),
-    BannerItem(
-      id: "3",
-      imgUrl: "https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meituan/3.jpg",
-    ),
-  ];
+  List<BannerItem> _bannerList = [];
 
   // 注释: 获取滚动容器的内容
   List<Widget> _getScrollChildern() {
     return [
       // 包裹普通widget的sliver家族的组件
-      SliverToBoxAdapter(child: HmSlider(bannerList: _bannerItem)), // 轮播图组件
+      SliverToBoxAdapter(child: HmSlider(bannerList: _bannerList)), // 轮播图组件
       // 放置分类组件
       SliverToBoxAdapter(child: SizedBox(height: 10)),
 
@@ -62,6 +50,17 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       HmMoreList(),
     ];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getBannderList();
+  }
+
+  void _getBannderList() async {
+    _bannerList = await getBannerListAPI();
+    setState(() {});
   }
 
   @override
