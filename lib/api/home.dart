@@ -12,3 +12,13 @@ Future<List<BannerItem>> getBannerListAPI() async {
     return list.toList();
   });
 }
+
+// 获取分类列表
+Future<List<CategoryItem>> getCategoryListAPI() async {
+  // 返回请求
+  return await dioRequest.get(HttpConstants.CATEGORY_HEAD_LIST).then((onValue) {
+    debugPrint("数据----------$onValue");
+    final list = (onValue as List).map((item) => CategoryItem.fromJSON(item));
+    return list.toList();
+  });
+}

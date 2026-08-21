@@ -19,6 +19,9 @@ class _HomeViewState extends State<HomeView> {
   // 注释: 轮播图数据
   List<BannerItem> _bannerList = [];
 
+  // 注释: 分类列表
+  List<CategoryItem> _categoryList = [];
+
   // 注释: 获取滚动容器的内容
   List<Widget> _getScrollChildern() {
     return [
@@ -27,7 +30,9 @@ class _HomeViewState extends State<HomeView> {
       // 放置分类组件
       SliverToBoxAdapter(child: SizedBox(height: 10)),
 
-      SliverToBoxAdapter(child: HmCategrory()), // 分类组件
+      SliverToBoxAdapter(
+        child: HmCategrory(categoryList: _categoryList),
+      ), // 分类组件
       SliverToBoxAdapter(child: SizedBox(height: 10)),
 
       SliverToBoxAdapter(child: HmSuggestion()),
@@ -56,10 +61,18 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     _getBannderList();
+    _getCategoryList();
   }
 
+  // 注释: 获取轮播图列表
   void _getBannderList() async {
     _bannerList = await getBannerListAPI();
+    setState(() {});
+  }
+
+  // 注释: 获取分类列表
+  void _getCategoryList() async {
+    _categoryList = await getCategoryListAPI();
     setState(() {});
   }
 
