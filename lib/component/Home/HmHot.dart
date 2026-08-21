@@ -11,7 +11,7 @@ class Hmhot extends StatefulWidget {
 }
 
 class _HmhotState extends State<Hmhot> {
-  // 取前2条数据
+  /// 列表取前2条数据
   List<GoodsItem> get _items {
     List<SubType> list = widget.recommendResult.subTypes ?? [];
     SubType map = list.isNotEmpty ? list.first : SubType(id: '', title: '');
@@ -19,6 +19,7 @@ class _HmhotState extends State<Hmhot> {
     return goodsItemList.length >= 2 ? goodsItemList.take(2).toList() : [];
   }
 
+  /// 上方文字标题
   Widget _buildHeader() {
     return Row(
       children: [
@@ -43,7 +44,7 @@ class _HmhotState extends State<Hmhot> {
     );
   }
 
-  // 左侧结构
+  /// 商品列表
   List<Widget> _getChildrenList() {
     return _items.map((item) {
       return Container(
@@ -80,7 +81,7 @@ class _HmhotState extends State<Hmhot> {
     }).toList();
   }
 
-  // 完成渲染
+  /// 完成渲染
   @override
   Widget build(BuildContext context) {
     return Padding(

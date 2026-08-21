@@ -28,6 +28,9 @@ class _HomeViewState extends State<HomeView> {
   // 注释: 一站式推荐列表
   RecommendResult _hotOneStopResult = RecommendResult(id: "", title: "");
 
+  // 注释: 新鲜好物列表
+  List<FreshGoodsItem> _freshGoodsItem = [];
+
   @override
   void initState() {
     super.initState();
@@ -36,6 +39,7 @@ class _HomeViewState extends State<HomeView> {
     _getHotPreferenceList();
     _getHotInVogueList();
     _getHotOneStopList();
+    _getRecommendList();
   }
 
   // 注释: 获取轮播图列表
@@ -65,6 +69,12 @@ class _HomeViewState extends State<HomeView> {
   // 注释: 获取一站式推荐列表
   void _getHotOneStopList() async {
     _hotOneStopResult = await getHotOneStopListAPI();
+    setState(() {});
+  }
+
+  // 注释: 获取推荐列表
+  void _getRecommendList() async {
+    _freshGoodsItem = await getRecommendListAPI(queryParameters: {"limit": 10});
     setState(() {});
   }
 
@@ -105,7 +115,7 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       SliverToBoxAdapter(child: SizedBox(height: 10)),
-      HmMoreList(),
+      HmMoreList(freshGoodsItemList: _freshGoodsItem),
     ];
   }
 
