@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:hm_shop/component/Home/HmCategory.dart';
 import 'package:hm_shop/component/Home/HmHot.dart';
 import 'package:hm_shop/component/Home/HmMoreList.dart';
@@ -27,6 +28,7 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: HmSuggestion()),
       // SliverGrid SliverList只能纵向排列
       SliverToBoxAdapter(child: SizedBox(height: 10)),
+      SliverToBoxAdapter(child: SizedBox(height: 300,)),
       // ListView
       SliverToBoxAdapter(
         child: Padding(
