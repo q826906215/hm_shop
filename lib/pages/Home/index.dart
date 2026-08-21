@@ -28,7 +28,6 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: HmSuggestion()),
       // SliverGrid SliverList只能纵向排列
       SliverToBoxAdapter(child: SizedBox(height: 10)),
-      SliverToBoxAdapter(child: SizedBox(height: 300,)),
       // ListView
       SliverToBoxAdapter(
         child: Padding(
