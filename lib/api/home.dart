@@ -34,3 +34,23 @@ Future<RecommendResult> getHotPreferenceListAPI() async {
     return RecommendResult.fromJSON(onValue);
   });
 }
+
+// 获取热门推荐列表
+Future<RecommendResult> getHotInVogueListAPI() async {
+  // 返回请求
+  return await dioRequest.get(HttpConstants.HOT_IN_VOGUE_LIST).then((onValue) {
+    debugPrint("数据----------$onValue");
+    // 解析数据
+    return RecommendResult.fromJSON(onValue);
+  });
+}
+
+// 获取一站式推荐列表
+Future<RecommendResult> getHotOneStopListAPI() async {
+  // 返回请求
+  return await dioRequest.get(HttpConstants.HOT_ONE_STOP_LIST).then((onValue) {
+    debugPrint("数据----------$onValue");
+    // 解析数据
+    return RecommendResult.fromJSON(onValue);
+  });
+}

@@ -23,6 +23,50 @@ class _HomeViewState extends State<HomeView> {
   List<CategoryItem> _categoryList = [];
   // 注释: 特惠推荐列表
   RecommendResult _recommendResult = RecommendResult(id: "", title: "");
+  // 注释: 热门推荐列表
+  RecommendResult _hotInVogueResult = RecommendResult(id: "", title: "");
+  // 注释: 一站式推荐列表
+  RecommendResult _hotOneStopResult = RecommendResult(id: "", title: "");
+
+  @override
+  void initState() {
+    super.initState();
+    _getBannderList();
+    _getCategoryList();
+    _getHotPreferenceList();
+    _getHotInVogueList();
+    _getHotOneStopList();
+  }
+
+  // 注释: 获取轮播图列表
+  void _getBannderList() async {
+    _bannerList = await getBannerListAPI();
+    setState(() {});
+  }
+
+  // 注释: 获取分类列表
+  void _getCategoryList() async {
+    _categoryList = await getCategoryListAPI();
+    setState(() {});
+  }
+
+  // 注释: 获取特惠推荐列表
+  void _getHotPreferenceList() async {
+    _recommendResult = await getHotPreferenceListAPI();
+    setState(() {});
+  }
+
+  // 注释: 获取热门推荐列表
+  void _getHotInVogueList() async {
+    _hotInVogueResult = await getHotInVogueListAPI();
+    setState(() {});
+  }
+
+  // 注释: 获取一站式推荐列表
+  void _getHotOneStopList() async {
+    _hotOneStopResult = await getHotOneStopListAPI();
+    setState(() {});
+  }
 
   // 注释: 获取滚动容器的内容
   List<Widget> _getScrollChildern() {
@@ -49,9 +93,13 @@ class _HomeViewState extends State<HomeView> {
           child: Flex(
             direction: Axis.horizontal,
             children: [
-              Expanded(child: Hmhot()),
+              Expanded(
+                child: Hmhot(recommendResult: _hotInVogueResult, type: "hot"),
+              ),
               SizedBox(width: 10),
-              Expanded(child: Hmhot()),
+              Expanded(
+                child: Hmhot(recommendResult: _hotOneStopResult, type: "step"),
+              ),
             ],
           ),
         ),
@@ -59,32 +107,6 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       HmMoreList(),
     ];
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _getBannderList();
-    _getCategoryList();
-    _getHotPreferenceList();
-  }
-
-  // 注释: 获取轮播图列表
-  void _getBannderList() async {
-    _bannerList = await getBannerListAPI();
-    setState(() {});
-  }
-
-  // 注释: 获取分类列表
-  void _getCategoryList() async {
-    _categoryList = await getCategoryListAPI();
-    setState(() {});
-  }
-
-  // 注释: 获取特惠推荐列表
-  void _getHotPreferenceList() async {
-    _recommendResult = await getHotPreferenceListAPI();
-    setState(() {});
   }
 
   @override
