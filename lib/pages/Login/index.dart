@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:hm_shop/api/user.dart';
 import 'package:hm_shop/utils/ToastUtils.dart';
 
 class LoginPage extends StatefulWidget {
@@ -202,19 +204,36 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   // 登录处理
+  _login() async {
+    // 调用登录接口
+    await loginAPI(
+          data: {
+            "account": _accountController.text,
+            "password": _passwordController.text,
+          },
+        )
+        .then((value) {
+          // 登录成功后返回
+          Navigator.pop(context);
+        })
+        .catchError((error) {
+          // 提示登录失败
+          ToastUtils.showTost(context, error.message as String);
+        });
+  }
+
+  // 登录处理
   void _handleLogin() {
     // 校验表单
     if (_formKey.currentState!.validate()) {
       if (_agreed) {
-        // 校验通过
+        // 校验通过, 登录
+        _login();
       } else {
         // 提示请勾选用户协议
         ToastUtils.showTost(context, "请勾选用户协议");
       }
     }
-    // TODO: 调用登录接口
-    // 登录成功后返回或跳转
-    // Navigator.pop(context);
   }
 
   @override
