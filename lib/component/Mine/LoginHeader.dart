@@ -37,12 +37,17 @@ class _LoginHeaderViewState extends State<LoginHeaderView> {
             child: Icon(Icons.person, color: Colors.pink[300], size: 36),
           ),
           const SizedBox(width: 12),
-          const Text(
-            "立即登录",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, "/login");
+            },
+            child: const Text(
+              "立即登录",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
             ),
           ),
         ],
