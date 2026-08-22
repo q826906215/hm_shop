@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hm_shop/api/Mine.dart';
 import 'package:hm_shop/component/Home/HmMoreList.dart';
 import 'package:hm_shop/component/Mine/Guess.dart';
 import 'package:hm_shop/component/Mine/LoginHeader.dart';
 import 'package:hm_shop/component/Mine/OrderSection.dart';
 import 'package:hm_shop/component/Mine/QuickActions.dart';
+import 'package:hm_shop/stores/UserController.dart';
 import 'package:hm_shop/viewmodels/Mine.dart';
 import 'package:hm_shop/viewmodels/home.dart';
 
@@ -21,6 +23,8 @@ class _MineViewState extends State<MineView> {
   Map<String, dynamic>? _params = {"page": 1, "pageSize": 10};
 
   final ScrollController _scrollController = ScrollController();
+
+  final UserController _userController = Get.find<UserController>();
 
   @override
   void initState() {
@@ -67,7 +71,11 @@ class _MineViewState extends State<MineView> {
     return CustomScrollView(
       controller: _scrollController,
       slivers: [
-        SliverToBoxAdapter(child: LoginHeaderView()),
+        Obx(
+          () => SliverToBoxAdapter(
+            child: LoginHeaderView(data: _userController.userInfo.value),
+          ),
+        ),
         SliverToBoxAdapter(child: QuickActionsView()),
         SliverToBoxAdapter(child: OrderSectionView()),
         SliverPersistentHeader(delegate: GuessView(), pinned: true),

@@ -1,7 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hm_shop/api/user.dart';
+import 'package:hm_shop/stores/TokenManager.dart';
+import 'package:hm_shop/stores/UserController.dart';
+import 'package:hm_shop/utils/LoadingDialog.dart';
 import 'package:hm_shop/utils/ToastUtils.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,7 +24,9 @@ class _LoginPageState extends State<LoginPage> {
   bool _agreed = false; // 是否同意协议
   bool _obscureText = true;
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final UserController userController = Get.find();
 
   @override
   void dispose() {
@@ -204,7 +210,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   // 登录处理
-  _login() async {
+  Future<void> _login() async {
+    Loadingdialog.showLoadingDialog(context, message: "登录中...");
     // 调用登录接口
     await loginAPI(
           data: {
@@ -213,10 +220,15 @@ class _LoginPageState extends State<LoginPage> {
           },
         )
         .then((value) {
+          // 登录成功后, 保存用户信息到UserController
+          userController.updateUserInfo(value);
+          tokenManager.setToken(value.token ?? ""); // 保存token到TokenManager
+          Loadingdialog.hideLoadingDialog(context);
           // 登录成功后返回
           Navigator.pop(context);
         })
         .catchError((error) {
+          Loadingdialog.hideLoadingDialog(context);
           // 提示登录失败
           ToastUtils.showTost(context, error.message as String);
         });

@@ -3,6 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hm_shop/constants/index.dart';
+import 'package:hm_shop/stores/TokenManager.dart';
 
 class DioRequest {
   final _dio = Dio(); // dio请求对象
@@ -23,6 +24,13 @@ class DioRequest {
       InterceptorsWrapper(
         // 请求拦截器
         onRequest: (options, handler) {
+          if (tokenManager.getToken().isNotEmpty) {
+            // 注释: 每次请求都添加token到header
+            options.headers = {
+              "Authorization": "Bearer ${tokenManager.getToken()}",
+            }; // 从TokenManager获取token并添加到header
+          }
+
           handler.next(options);
         },
         // 响应拦截器

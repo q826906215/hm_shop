@@ -5,6 +5,8 @@ class GlobalConstants {
   static const int TIME_OUT = 10; // 超时时间
 
   static const String SUCCESS_CODE = "1"; // 成功状态
+
+  static const String TOKEN_KEY = "shop_toKen"; // token对应数据持久化的key
 }
 
 // 存放请求接口地址接口的常量
@@ -18,4 +20,5 @@ class HttpConstants {
   static const String GUESS_LIST =
       "/home/goods/guessLike"; // 猜你喜欢列表  返回的结构体 是 GoodsItems 列表结构体
   static const String LOGIN = "/login"; // 登录接口
+  static const String PROFILE = "/member/profile"; // 用户信息接口
 }

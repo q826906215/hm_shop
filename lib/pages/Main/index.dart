@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hm_shop/api/user.dart';
 import 'package:hm_shop/pages/Cart/index.dart';
 import 'package:hm_shop/pages/Category/index.dart';
 import 'package:hm_shop/pages/Home/index.dart';
 import 'package:hm_shop/pages/Mine/index.dart';
+import 'package:hm_shop/stores/TokenManager.dart';
+import 'package:hm_shop/stores/UserController.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key? key}) : super(key: key);
@@ -56,6 +60,22 @@ class _MainPageState extends State<MainPage> {
   // 注释: tabbar页面List
   List<Widget> _getChildren() {
     return [HomeView(), CategoryView(), CartView(), MineView()];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // 初始化用户信息
+    _initUser();
+  }
+
+  final UserController _userController = Get.put(UserController());
+  Future<void> _initUser() async {
+    await tokenManager.init(); // 初始化token管理器
+    if (tokenManager.getToken().isNotEmpty) {
+      // 如果token存在 则获取用户信息
+      _userController.updateUserInfo(await profileAPI());
+    }
   }
 
   @override

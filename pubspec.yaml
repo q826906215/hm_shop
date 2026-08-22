@@ -38,6 +38,10 @@ dependencies:
   carousel_slider: ^5.1.2
   # 注释: 网络库
   dio: ^5.11.0
+  # 注释: get请求库共享数据
+  get: ^4.7.3
+  # 注释: 本地存储库(用于存储用户信息)数据持久化
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:

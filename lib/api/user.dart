@@ -9,3 +9,11 @@ Future<UserInfo> loginAPI({required Map<String, dynamic> data}) async {
     return UserInfo.fromJson(onValue);
   });
 }
+
+Future<UserInfo> profileAPI() async {
+  // TODO: 调用用户信息接口
+  return await dioRequest.get(HttpConstants.PROFILE).then((onValue) {
+    // 解析数据
+    return UserInfo.fromJson(onValue);
+  });
+}

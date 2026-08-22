@@ -1,0 +1,12 @@
+import 'package:get/get.dart';
+import 'package:hm_shop/viewmodels/user.dart';
+
+// 需要共享的对象 要有一些共享的属性 属性需要响应式更新
+class UserController extends GetxController {
+  var userInfo = UserInfo().obs; // user对象被监听了
+  // 想取值的话 需要 userInfo.value 来获取
+
+  updateUserInfo(UserInfo userInfo) {
+    this.userInfo.value = userInfo;
+  }
+}
