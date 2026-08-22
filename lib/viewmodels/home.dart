@@ -131,7 +131,7 @@ class RecommendResult {
 class FreshGoodsItem {
   String? id;
   String? name;
-  num? price; // JSON 中可能为 int 或 double 使用 num 兜底
+  String? price; // JSON 中可能为 int 或 double 使用 num 兜底
   String? picture;
   int? payCount;
   FreshGoodsItem({this.id, this.name, this.price, this.picture, this.payCount});
@@ -139,7 +139,7 @@ class FreshGoodsItem {
     return FreshGoodsItem(
       id: json["id"] ?? "",
       name: json["name"] ?? "",
-      price: json["price"] ?? 0,
+      price: json["price"].toString() ?? "",
       picture: json["picture"] ?? "",
       payCount: json["payCount"] ?? 0,
     );

@@ -58,13 +58,10 @@ Future<List<FreshGoodsItem>> getRecommendListAPI({
   return await dioRequest
       .get(HttpConstants.RECOMMEND_LIST, params: queryParameters)
       .then((onValue) {
-        debugPrint("数据----------$onValue");
         // 解析数据
         final list = (onValue as List).map(
           (item) => FreshGoodsItem.fromJSON(item),
         );
-
-        debugPrint("数据hahahaha----------${list.toList()}");
         return list.toList();
       });
 }
